@@ -1,3 +1,10 @@
+/* ── Constants ───────────────────────────────────────────────── */
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* Higher values increase the parallax scroll effect intensity */
+const PARALLAX_SPEED = 0.18;
+/* Placeholder delay simulating a backend submission; replace with real fetch() call */
+const SIMULATED_SUBMISSION_DELAY_MS = 1200;
+
 /* global state */
 const header = document.getElementById('site-header');
 const toggle = document.querySelector('.nav__toggle');
@@ -103,13 +110,13 @@ if (form) {
     }
 
     /* Basic email format check */
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!EMAIL_REGEX.test(email)) {
       formSuccess.style.color = 'var(--salmon)';
       formSuccess.textContent = 'Please enter a valid email address.';
       return;
     }
 
-    /* Simulate successful submission */
+    /* Simulate successful submission; replace setTimeout with real fetch() call */
     const submitBtn = form.querySelector('[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
@@ -120,7 +127,7 @@ if (form) {
       submitBtn.textContent = 'Send Inquiry';
       formSuccess.style.color = 'var(--sage)';
       formSuccess.textContent = 'Thank you! Michael will be in touch shortly.';
-    }, 1200);
+    }, SIMULATED_SUBMISSION_DELAY_MS);
   });
 }
 
@@ -130,7 +137,7 @@ if (heroImg && window.matchMedia('(prefers-reduced-motion: no-preference)').matc
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     if (y < window.innerHeight) {
-      heroImg.style.transform = `scale(1) translateY(${y * 0.18}px)`;
+      heroImg.style.transform = `scale(1) translateY(${y * PARALLAX_SPEED}px)`;
     }
   }, { passive: true });
 }
